@@ -8,6 +8,6 @@ public class MySensorDemo extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.main);//读取布局文件
     }
 }
