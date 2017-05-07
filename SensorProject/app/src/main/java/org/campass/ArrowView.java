@@ -14,51 +14,51 @@ import android.util.AttributeSet;
 import android.view.View;
 
 public class ArrowView extends View implements SensorEventListener {
-	private Bitmap comp = null;//Bitmap»æÍ¼
-	private float[] allValue;//´«¸ÐÆ÷ÊýÖµ
+	private Bitmap comp = null;//Bitmapç»˜å›¾
+	private float[] allValue;//ä¼ æ„Ÿå™¨æ•°å€¼
 
 	public ArrowView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		super.setBackgroundColor(Color.WHITE); // µ×É«Îª°×É«
+		super.setBackgroundColor(Color.WHITE); // åº•è‰²ä¸ºç™½è‰²
 		this.comp = BitmapFactory.decodeResource(super.getResources(),
-				R.drawable.arrow);//È¡µÃ×ÊÔ´Í¼Æ¬
+				R.drawable.arrow);//å–å¾—èµ„æºå›¾ç‰‡
 		SensorManager manager = (SensorManager) context
-				.getSystemService(Context.SENSOR_SERVICE); // È¡µÃ´«¸ÐÆ÷·þÎñ
+				.getSystemService(Context.SENSOR_SERVICE); // å–å¾—ä¼ æ„Ÿå™¨æœåŠ¡
 		manager.registerListener(this,
-				manager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD),//´Å³¡´«¸ÐÆ÷
-				SensorManager.SENSOR_DELAY_GAME); // ÊÊºÏÓÚÓÎÏ·¸üÐÂËÙÂÊ
+				manager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD),//ç£åœºä¼ æ„Ÿå™¨
+				SensorManager.SENSOR_DELAY_GAME); // é€‚åˆäºŽæ¸¸æˆæ›´æ–°é€ŸçŽ‡
 	}
 
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
-	}//´«¸ÐÆ÷¼àÌý·½·¨
+	}//ä¼ æ„Ÿå™¨ç›‘å¬æ–¹æ³•
 
 	@Override
-	public void onSensorChanged(SensorEvent event) { // ´«¸ÐÆ÷·½Î»¸Ä±ä
-		if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) { // ÏÖÔÚÊÇ´Å³¡´«¸ÐÆ÷
-			float value[] = event.values; // È¡µÃÈý¸öÖáµÄÖµ
-			ArrowView.this.allValue = value; //±£´æÖµ
-			super.postInvalidate(); // Ö÷Ïß³ÌÖØ»æ
+	public void onSensorChanged(SensorEvent event) { // ä¼ æ„Ÿå™¨æ–¹ä½æ”¹å˜
+		if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) { // çŽ°åœ¨æ˜¯ç£åœºä¼ æ„Ÿå™¨
+			float value[] = event.values; // å–å¾—ä¸‰ä¸ªè½´çš„å€¼
+			ArrowView.this.allValue = value; //ä¿å­˜å€¼
+			super.postInvalidate(); // ä¸»çº¿ç¨‹é‡ç»˜
 		}
 	}
 
 	@Override
-	protected void onDraw(Canvas canvas) {  // ¸ù¾Ý´«¸ÐÆ÷µÄÊýÖµÀ´¸Ä±äÍ¼Æ¬µÄ·½Ïò
+	protected void onDraw(Canvas canvas) {  // æ ¹æ®ä¼ æ„Ÿå™¨çš„æ•°å€¼æ¥æ”¹å˜å›¾ç‰‡çš„æ–¹å‘
 		super.onDraw(canvas);
-		Paint p = new Paint(); //»æÍ¼¶ÔÏó
+		Paint p = new Paint(); //ç»˜å›¾å¯¹è±¡
 		if (this.allValue != null) {
-			float x = this.allValue[0] ;//»ñÈ¡XÖá×ø±ê
-			float y = this.allValue[1] ;//»ñÈ¡YÖá×ø±ê
-			canvas.restore(); // ÖØÖÃ»æÍ¼¶ÔÏó
-			// ÉèÖÃÒÔÆÁÄ»ÖÐÐÄµã×÷ÎªÐý×ªÖÐÐÄ
+			float x = this.allValue[0] ;//èŽ·å–Xè½´åæ ‡
+			float y = this.allValue[1] ;//èŽ·å–Yè½´åæ ‡
+			canvas.restore(); // é‡ç½®ç»˜å›¾å¯¹è±¡
+			// è®¾ç½®ä»¥å±å¹•ä¸­å¿ƒç‚¹ä½œä¸ºæ—‹è½¬ä¸­å¿ƒ
 			canvas.translate(super.getWidth() / 2, super.getHeight() / 2) ;
-			// ÅÐ¶ÏyÖáÊÇ·ñÎª0µÄÐý×ª½Ç¶È
+			// åˆ¤æ–­yè½´æ˜¯å¦ä¸º0çš„æ—‹è½¬è§’åº¦
 			if (y == 0 && x > 0) {
-				canvas.rotate(90) ;	// Ðý×ª½Ç¶ÈÎª90¶È
+				canvas.rotate(90) ;	// æ—‹è½¬è§’åº¦ä¸º90åº¦
 			} else if (y == 0 && x < 0) {
-				canvas.rotate(270) ;	// Ðý×ª½Ç¶ÈÎª270¶È
-			} else {	// ¸ù¾ÝxºÍyµÄÖµ¼ÆËãÐý×ª½Ç¶È£¬¶øÕâ¸ö½Ç¶È¾ÍÊÇÒÀ¿¿tan()ÖµÀ´¼ÆËã
+				canvas.rotate(270) ;	// æ—‹è½¬è§’åº¦ä¸º270åº¦
+			} else {	// æ ¹æ®xå’Œyçš„å€¼è®¡ç®—æ—‹è½¬è§’åº¦ï¼Œè€Œè¿™ä¸ªè§’åº¦å°±æ˜¯ä¾é tan()å€¼æ¥è®¡ç®—
 				if(y >= 0) {
 					canvas.rotate((float) Math.tanh(x / y) * 90);
 				} else {
@@ -66,7 +66,7 @@ public class ArrowView extends View implements SensorEventListener {
 				}
 			}
 		}
-		canvas.drawBitmap(this.comp, -this.comp.getWidth() / 2, -this.comp.getHeight() / 2, p);//»æÖÆ
+		canvas.drawBitmap(this.comp, -this.comp.getWidth() / 2, -this.comp.getHeight() / 2, p);//ç»˜åˆ¶
 	}
 
 }
